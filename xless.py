@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 __doc__ = "Display excel directly on the screen"
-__version__ = "v1.5"
+__version__ = "v1.6"
 __author__ = "Kai"
 
 
@@ -101,7 +101,7 @@ def show_text(text):
     """
     use less to show text
     """
-    tempname = tempfile.mktemp()[1]
+    tempname = tempfile.mktemp()
     with open(tempname, "w", errors='backslashreplace') as fh:
         fh.write(text)
     
@@ -131,6 +131,8 @@ if __name__ == "__main__":
                         help = "Showing grid for cells")
     parser.add_argument("-N", "--show_index", action='store_true', default=False,
                         help = "Showing index for rows")
+    parser.add_argument("-F", "--field_separator",
+                        help = "Use this for the input field separator. If this is specified, then the input file will be treated as a plain-txt file")
     parser.add_argument("-v", "--version", action='version', version="%(prog)s " + __version__)
     
     args = parser.parse_args()
@@ -148,6 +150,11 @@ if __name__ == "__main__":
         for each_sheet in excels:
             text = df2text(excels[each_sheet], args.show_index, args.show_grid)
             show_text(text)
+    
+    elif args.field_separator:
+        df = pd.read_csv(args.excel, sep = args.field_separator, dtype = str, header = header)
+        text = df2text(df, args.show_index, args.show_grid)
+        show_text(text)
     
     elif args.excel.endswith("csv"):
         csv = pd.read_csv(args.excel, dtype = str, header = header)
