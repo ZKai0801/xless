@@ -51,7 +51,7 @@ cp xless/xless /usr/local/bin/
 
 ```bash
 [kai@admin ~]$ xless -h
-usage: xless [-h] [-H HEADER] [-s [SHEET [SHEET ...]]] [-g] [-N] [-v] excel
+usage: xless [-h] [-H HEADER] [-s [SHEET [SHEET ...]]] [-g] [-N] [-F FIELD_SEPARATOR] [-v] excel
 
 Display excel directly on the screen
 
@@ -68,6 +68,10 @@ optional arguments:
                         display all sheets
   -g, --show_grid       Showing grid for cells
   -N, --show_index      Showing index for rows
+  -F FIELD_SEPARATOR, --field_separator FIELD_SEPARATOR
+                        Use this for the input field separator. If this is
+                        specified, then the input file will be treated as a
+                        plain-txt file
   -v, --version         show program's version number and exit
 ```
 
