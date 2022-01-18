@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 __doc__ = "Display excel directly on the screen"
-__version__ = "v1.6"
+__version__ = "v1.7"
 __author__ = "Kai"
 
 
@@ -12,7 +12,7 @@ import re
 import pandas as pd
 import subprocess
 from collections import OrderedDict
-
+import sys
 
 
 def df2text(df, show_index, show_grid):
@@ -122,7 +122,7 @@ def length(text):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description = __doc__)
-    parser.add_argument("excel", help = "Input excel")
+    parser.add_argument("excel", help = "Input excel, or use '-' to read from stdin")
     parser.add_argument("-H", "--header", default = "0", type = str,
                         help = "Row (0-indexed) to use for the column labels of the parsed DataFrame; Use None if there is no header.")
     parser.add_argument("-s", "--sheet", default = ["0"], nargs = "*",
@@ -131,17 +131,35 @@ if __name__ == "__main__":
                         help = "Showing grid for cells")
     parser.add_argument("-N", "--show_index", action='store_true', default=False,
                         help = "Showing index for rows")
-    parser.add_argument("-F", "--field_separator",
+    parser.add_argument("-F", "--field_separator", default="\t",
                         help = "Use this for the input field separator. If this is specified, then the input file will be treated as a plain-txt file")
+    parser.add_argument("--get-sheetnames", action='store_true', default=False, help="print sheetnames only")
     parser.add_argument("-v", "--version", action='version', version="%(prog)s " + __version__)
     
     args = parser.parse_args()
     
-    assert os.path.exists(args.excel), "Cannot find input file"
+    assert os.path.exists(args.excel) or args.excel == "-", "Cannot find input file"
     
     header = int(args.header) if args.header.isnumeric() else None
 
-    if args.excel.endswith("xlsx"):
+    # read from stdin
+    if args.excel == "-":
+        tempname = tempfile.mktemp()
+        with open(tempname, "w", errors='backslashreplace') as fh:
+            for line in sys.stdin:
+                fh.write(line)
+        
+        df = pd.read_csv(tempname, sep = args.field_separator, dtype = str, header = header)
+        text = df2text(df, args.show_index, args.show_grid)
+        show_text(text)
+
+    elif args.excel.endswith("xlsx"):
+
+        if args.get_sheetnames:
+            excels = pd.read_excel(args.excel, dtype = str, header = header, sheet_name = None)
+            print("\n".join(excels.keys()))
+            sys.exit()
+
         sheet = [int(i) if i.isnumeric() else i for i in args.sheet]
         sheet = None if (args.sheet[0] == "all") else sheet
 

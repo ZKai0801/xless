@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name = "xless",
-    version = 'v1.6',
+    version = 'v1.7',
     author = "Zhentian Kai",
     author_email = "zhentian.kai@outlook.com",
     packages = setuptools.find_packages(),
@@ -15,7 +15,7 @@ setuptools.setup(
     long_description = long_desc,
     long_description_content_type = "text/markdown",
     url = "https://github.com/ZKai0801/xless",
-    install_requires = ['pandas'],
+    install_requires = ['pandas', 'openpyxl'],
     classifiers = [
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
