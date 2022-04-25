@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name = "xless",
-    version = 'v1.7',
+    version = 'v1.8',
     author = "Zhentian Kai",
     author_email = "zhentian.kai@outlook.com",
     packages = setuptools.find_packages(),

@@ -32,7 +32,7 @@
 
 ## Install 
 
-`xless` requires only the `pandas` library and no other dependencies.
+`xless` requires only the `pandas` and `openpyxl` library and no other dependencies.
 
 Install `xless` via `pip`:
 
@@ -56,7 +56,7 @@ usage: xless [-h] [-H HEADER] [-s [SHEET [SHEET ...]]] [-g] [-N] [-F FIELD_SEPAR
 Display excel directly on the screen
 
 positional arguments:
-  excel                 Input excel
+  excel                 Input excel, or use '-' to read from stdin
 
 optional arguments:
   -h, --help            show this help message and exit

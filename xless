@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 __doc__ = "Display excel directly on the screen"
-__version__ = "v1.7"
+__version__ = "v1.8"
 __author__ = "Kai"
 
 
@@ -169,11 +169,6 @@ if __name__ == "__main__":
             text = df2text(excels[each_sheet], args.show_index, args.show_grid)
             show_text(text)
     
-    elif args.field_separator:
-        df = pd.read_csv(args.excel, sep = args.field_separator, dtype = str, header = header)
-        text = df2text(df, args.show_index, args.show_grid)
-        show_text(text)
-    
     elif args.excel.endswith("csv"):
         csv = pd.read_csv(args.excel, dtype = str, header = header)
         text = df2text(csv, args.show_index, args.show_grid)
@@ -182,6 +177,11 @@ if __name__ == "__main__":
     elif args.excel.endswith("tsv"):
         tsv = pd.read_csv(args.excel, sep = "\t", dtype = str, header = header)
         text = df2text(tsv, args.show_index, args.show_grid)
+        show_text(text)
+    
+    elif args.field_separator:
+        df = pd.read_csv(args.excel, sep = args.field_separator, dtype = str, header = header)
+        text = df2text(df, args.show_index, args.show_grid)
         show_text(text)
 
     else:
